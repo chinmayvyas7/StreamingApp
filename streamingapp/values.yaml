@@ -1,0 +1,54 @@
+global:
+  imagePullPolicy: IfNotPresent
+
+services:
+  auth:
+    image: chinmayvyas7/streaming-auth
+    tag: "1.0.0"
+    replicas: 2
+    port: 3001
+
+  streaming:
+    image: chinmayvyas7/streaming-stream
+    tag: "1.0.0"
+    replicas: 2
+    port: 3002
+
+  admin:
+    image: chinmayvyas7/streaming-admin
+    tag: "1.0.0"
+    replicas: 2
+    port: 3003
+
+  chat:
+    image: chinmayvyas7/streaming-chat
+    tag: "1.0.0"
+    replicas: 2
+    port: 3004
+
+  frontend:
+    image: chinmayvyas7/streaming-frontend
+    tag: "1.0.7"
+    replicas: 2
+    port: 80
+
+mongo:
+  image: mongo:6
+  port: 27017
+  storageSize: 5Gi
+  database: streamingapp
+
+config:
+  clientUrls: "http://localhost"
+  awsRegion: "ap-south-1"
+  streamingPublicUrl: "http://localhost/api/streaming"
+
+secrets:
+  jwtSecret: "streamingapp-demo-secret"
+  awsAccessKeyId: ""
+  awsSecretAccessKey: ""
+  awsS3Bucket: ""
+
+ingress:
+  enabled: true
+  host: localhost

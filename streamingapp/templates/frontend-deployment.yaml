@@ -1,0 +1,38 @@
+{{- $s := .Values.services.frontend }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+spec:
+  replicas: {{ $s.replicas }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: "{{ $s.image }}:{{ $s.tag }}"
+          imagePullPolicy: {{ $.Values.global.imagePullPolicy }}
+          ports:
+            - containerPort: {{ $s.port }}
+          readinessProbe:
+            httpGet:
+              path: /
+              port: {{ $s.port }}
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /
+              port: {{ $s.port }}
+            initialDelaySeconds: 15
+            periodSeconds: 10

@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: streamingapp-config
+data:
+  CLIENT_URLS: {{ .Values.config.clientUrls | quote }}
+  AWS_REGION: {{ .Values.config.awsRegion | quote }}
+  MONGO_URI: "mongodb://mongo:27017/{{ .Values.mongo.database }}"
+  STREAMING_PUBLIC_URL: {{ .Values.config.streamingPublicUrl | quote }}
