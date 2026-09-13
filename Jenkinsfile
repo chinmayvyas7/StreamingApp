@@ -11,26 +11,26 @@ pipeline {
 
         stage('Verify Project') {
             steps {
-                bat 'docker --version'
-                bat 'kubectl version --client'
-                bat 'helm version'
+                sh 'docker --version'
+                sh 'kubectl version --client'
+                sh 'helm version'
             }
         }
 
         stage('Build Docker Images') {
             steps {
-                bat 'docker build -t chinmayvyas7/streaming-auth:1.0.0 backend/authService'
-                bat 'docker build -t chinmayvyas7/streaming-stream:1.0.0 -f backend/streamingService/Dockerfile backend'
-                bat 'docker build -t chinmayvyas7/streaming-admin:1.0.0 -f backend/adminService/Dockerfile backend'
-                bat 'docker build -t chinmayvyas7/streaming-chat:1.0.0 -f backend/chatService/Dockerfile backend'
-                bat 'docker build -t chinmayvyas7/streaming-frontend:1.0.7 frontend'
+                sh 'docker build -t chinmayvyas7/streaming-auth:1.0.0 backend/authService'
+                sh 'docker build -t chinmayvyas7/streaming-stream:1.0.0 -f backend/streamingService/Dockerfile backend'
+                sh 'docker build -t chinmayvyas7/streaming-admin:1.0.0 -f backend/adminService/Dockerfile backend'
+                sh 'docker build -t chinmayvyas7/streaming-chat:1.0.0 -f backend/chatService/Dockerfile backend'
+                sh 'docker build -t chinmayvyas7/streaming-frontend:1.0.7 frontend'
             }
         }
 
         stage('Verify Helm Chart') {
             steps {
-                bat 'helm lint streamingapp'
-                bat 'helm template streamingapp streamingapp'
+                sh 'helm lint streamingapp'
+                sh 'helm template streamingapp streamingapp'
             }
         }
     }
