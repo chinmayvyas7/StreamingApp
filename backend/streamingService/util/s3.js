@@ -30,7 +30,9 @@ const buildPublicUrl = (key) => {
 };
 
 const buildStreamUrl = (videoId) => {
-  const base = process.env.STREAMING_PUBLIC_URL?.replace(/\/$/, '');
+  const base = process.env.STREAMING_PUBLIC_URL
+    ?.replace(/\/$/, '')
+    .replace(/\/api\/streaming$/, '');
   const path = `/api/streaming/stream/${videoId}`;
   if (!base) {
     return path;
